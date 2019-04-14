@@ -1,0 +1,38 @@
+ALTER TABLE `music_cats` ADD `orderby` TEXT NOT NULL ,
+ADD `sort` TEXT NOT NULL ,
+ADD `default_orderby` TEXT NOT NULL ,
+ADD `visitor_orderby` INT NOT NULL ,
+ADD `ord` INT NOT NULL ;
+
+
+DROP TABLE mobile_cats ;
+
+RENAME TABLE `music_cats` TO `mobile_cats` ;
+
+ALTER TABLE `music_data` ADD `votes` INT NOT NULL ,
+ADD `votes_total` INT NOT NULL ;
+
+
+ALTER TABLE `music_data` CHANGE `url_save` `url` TEXT  NOT NULL ;
+ALTER TABLE `music_data` CHANGE `listens` `views` TEXT  NOT NULL ;
+
+ALTER TABLE `music_data` CHANGE `comments` `details` TEXT  NOT NULL ;
+
+
+ALTER TABLE `music_data`
+  DROP `file_type`;
+
+
+DROP TABLE mobile_data ;
+RENAME TABLE `music_data` TO `mobile_data` ;
+
+
+
+DROP TABLE `mobile_news` ;
+
+RENAME TABLE `music_news` TO `mobile_news` ;
+
+update mobile_data,mobile_cats set mobile_data.img=mobile_data.url where mobile_data.cat=mobile_cats.id and mobile_cats.type='pic';
+
+update mobile_data,mobile_cats set mobile_data.img=mobile_data.thumb where mobile_data.cat=mobile_cats.id and mobile_cats.type='theme';
+update mobile_data,mobile_cats set mobile_data.img=mobile_data.thumb where mobile_data.cat=mobile_cats.id and mobile_cats.type='game';

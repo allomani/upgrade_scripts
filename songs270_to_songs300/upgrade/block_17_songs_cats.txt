@@ -1,0 +1,7 @@
+<?
+$cats_qr=db_query("select * from songs_cats where active=1 order by ord asc");
+while($data = db_fetch($cats_qr)){
+       print "<b>::</b> <a href=\"".cat_url($data['id'],$data['page_name'],$data['name'])."\" title=\"$data[name]\">$data[name]</a><br>";
+
+
+        }

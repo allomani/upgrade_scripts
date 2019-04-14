@@ -1,0 +1,38 @@
+<?
+global $settings,$data,$data_singer,$album_songs_num;
+
+$qr=mysql_query("select * from songs_albums  order by id DESC limit 8") ;
+print "<table width=100%><tr>";
+
+$c=0 ;
+
+
+while ($data =db_fetch($qr)){
+
+$data_singer=db_qr_fetch("select * from songs_singers where id=$data[cat] and active=1") ;
+
+if($data_singer['active']){  
+if ($c==$settings['songs_cells']) {
+print "  </tr><TR>" ;
+$c = 0 ;
+}
+ ++$c ;
+
+print "<td valign=top>";
+
+
+$album_songs_count = db_qr_fetch("select count(id) as count from songs_songs where album_id='$data[id]' and album='$data_singer[id]'");
+$album_songs_num = $album_songs_count['count'];
+
+if (!$data['img']){
+$data['img'] = $data_singer['img'];
+}
+$id = $data_singer['id'];
+compile_template(get_template('browse_albums'));
+
+print "</td>";
+}
+              
+}
+             print "</tr></table>";
+?>

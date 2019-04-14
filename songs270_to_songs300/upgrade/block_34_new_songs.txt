@@ -1,0 +1,54 @@
+<?
+global $action,$data,$data_singer,$song_ext,$lyrics_count,$urls_sets,$songs_fields_sets,$phrases,$songs_limit,$tr_class,$song_ext,$videos_count,$lyrics_count;
+
+$songs_limit =  1;
+
+$qr=db_query("select songs_new_songs_menu.song_id,songs_songs.*,songs_singers.name as singer_name,songs_singers.id as singer_id,songs_singers.page_name as singer_page_name  from songs_new_songs_menu,songs_songs,songs_singers where songs_songs.id=songs_new_songs_menu.song_id and songs_singers.id=songs_songs.album  order by songs_new_songs_menu.ord asc");
+
+  $c = 0 ;
+
+if(db_num($qr)){
+
+//--- save results to array -----------
+unset($saved_results);
+$lyrics_count = 0;
+$videos_count = 0;
+      while($data = db_fetch($qr)){  
+      $saved_results[] = $data;
+      if($data['lyrics']){$lyrics_count++;}
+      if($data['video_id']){$videos_count++;}
+      }
+//------------------------------------
+
+
+run_template('browse_songs_header');
+
+
+foreach($saved_results as $data){
+
+   
+ $song_ext =  get_song_ext($data['ext'],$data['date']) ;
+
+
+$data_singer['name'] = $data['singer_name'];
+$data_singer['id'] = $data['singer_id'];
+$data_singer['page_name'] = $data['singer_page_name'];
+
+
+if($tr_class == "row_1"){
+$tr_class="row_2" ;
+}else{
+$tr_class="row_1";
+}         
+   
+
+run_template('browse_songs');
+
+        }
+
+run_template('browse_songs_footer');
+}else{
+print "<center>$phrases[err_no_songs]</center>";
+}
+
+?>

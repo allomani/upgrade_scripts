@@ -1,0 +1,55 @@
+<? if(check_member_login()){
+global $member_data,$style,$phrases ;
+
+
+print "<center>  √Â·« Ê ”Â·« »ﬂ Ì« $member_data[username] <br> <br>" ;
+$nw_msgs = db_qr_fetch("select count(id) as count from songs_members_msgs where owner='$member_data[id]' and opened=0 and sent=0");
+
+if($nw_msgs['count'] >0){
+print "<font color=red> ·œÌﬂ $nw_msgs[count] —”«∆· ÃœÌœ… </font><br><br>";
+}
+
+print "</center>
+
+<a href='usercp.php'><img src='$style[images]/my_favorite.gif'>&nbsp; $phrases[favorite_videos] </a><br>
+
+
+<a href='messages.php'><img src='$style[images]/my_messages.gif'>&nbsp; «·—”«∆· «·Œ«’…</a><br>
+
+<a href='usercp.php?action=profile'><img src='$style[images]/my_profile.gif'>&nbsp; «·„·› «·‘Œ’Ì </a><br>
+
+<a href='usercp.php?action=friends'><img src='$style[images]/friends_list.gif'>&nbsp; «·«’œﬁ«¡ </a><br>
+
+<a href='usercp.php?action=black_list'><img src='$style[images]/black_list.gif'>&nbsp; ﬁ«∆„… «· Ã«Â·</a><br>
+
+<a href='login.php?action=logout'><img src='$style[images]/logout.gif'>&nbsp;  ”ÃÌ· Œ—ÊÃ </a>
+</center><br>";
+}else{
+?>
+<form method="POST" action="login.php">
+<input type=hidden name=action value=login>
+<input type=hidden name=re_link value="<? print $_SERVER[REQUEST_URI] ; ?>">
+<table border="0" width="100%">
+	<tr>
+		<td height="15"><span lang="ar-sa">«”„ «·„” Œœ„ :</span></td></tr><tr>
+		<td height="15"><input type="text" name="username" size="10"></td>
+	</tr>
+	<tr>
+		<td height="12"><span lang="ar-sa">ﬂ·„… «·„—Ê— :</span></td></tr><tr>
+		<td height="12" ><input type="password" name="password" size="10"></td>
+	</tr>
+	<tr>
+		<td height="23">
+		<p align="center"><input type="submit" value=" ”ÃÌ· œŒÊ·"></td>
+	</tr>
+	<tr>
+		<td height="38"><span lang="ar-sa">
+		<a href="register.php">„” Œœ„ ÃœÌœ ø</a><br>
+		<a href="index.php?action=forget_pass">‰”Ì  ﬂ·„… «·„—Ê— ø</a></span></td>
+	</tr>
+</table>
+</form>
+
+<?
+}
+?>

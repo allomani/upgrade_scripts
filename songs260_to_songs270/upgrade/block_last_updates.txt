@@ -1,0 +1,24 @@
+<?
+global $new_limit,$settings,$data;
+$sigers_array = array();   
+
+
+print "<table width=100%><tr>";
+$c=0 ;
+$qr=db_query("select name,id,last_update,img from songs_singers where active=1 order by last_update desc limit 8") ;
+
+while($data = db_fetch($qr)){
+
+if ($c==$settings['songs_cells']) {
+print "  </tr><TR>" ;
+$c = 0 ;
+}
+ ++$c ;
+
+print "<td valign=top>";
+compile_template(get_template('browse_singers'));
+print "</td>";
+              }
+
+print "</tr></table>";
+?>

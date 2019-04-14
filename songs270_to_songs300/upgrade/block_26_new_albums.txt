@@ -1,0 +1,34 @@
+<?
+global $settings,$data_album,$settings,$global_align_x,$links;
+
+$qr=mysql_query("select songs_albums.*,songs_singers.name as singer_name,songs_singers.id as singer_id,songs_singers.page_name as signer_page_name,songs_singers.img as singer_img  from songs_albums,songs_singers where songs_singers.active=1 and songs_albums.cat=songs_singers.id order by ".iif($settings['albums_orderby']=="year","songs_albums.year $settings[albums_sort] , songs_albums.id $settings[albums_sort]","songs_albums.$settings[albums_orderby] $settings[albums_sort]")." limit 8") ;
+print "<table width=100%><tr>";
+
+$c=0 ;
+
+
+while ($data_album =db_fetch($qr)){
+
+
+if ($c==$settings['songs_cells']) {
+print "  </tr><TR>" ;
+$c = 0 ;
+}
+ ++$c ;
+
+print "<td valign=top>";
+
+
+if (!$data_album['img']){
+$data_album['img'] = $data_album['singer_img'];
+}
+
+run_template('browse_albums');
+
+print "</td>";
+              
+}
+             print "</tr></table>
+
+<br><div align='$global_align_x'><a href=\"$links[albums_page]\">Ã„Ì⁄ «·√·»Ê„« </a></div>";
+?>

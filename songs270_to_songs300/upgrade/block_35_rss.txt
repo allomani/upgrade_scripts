@@ -1,0 +1,45 @@
+<?
+global $global_align,$phrases,$sitemap_perpage;
+
+$count_songs = valueof(db_qr_fetch("select count(*) as count from songs_songs"),"count");
+
+
+print "
+<fieldset style='align:$global_align;'>
+<legend><b>RSS</b></legend>
+<a href='rss.php'><img src='images/rss_small.png'>&nbsp;$phrases[the_singers]</a>
+<br>
+<a href='rss.php?op=songs'><img src='images/rss_small.png'>&nbsp;$phrases[the_songs]</a>
+<br>
+<a href='rss.php?op=albums'><img src='images/rss_small.png'>&nbsp;$phrases[the_albums]</a>
+<br>
+<a href='rss.php?op=videos'><img src='images/rss_small.png'>&nbsp;$phrases[the_videos]</a>
+<br>
+<a href='rss.php?op=photos'><img src='images/rss_small.png'>&nbsp;$phrases[the_photos]</a>
+<br>
+<a href='rss.php?op=news'><img src='images/rss_small.png'>&nbsp;$phrases[the_news]</a>
+
+
+</fieldset>
+<br>
+
+<fieldset style='align:$global_align;'>
+<legend><b>Site Maps</b></legend>
+<a href='sitemap.php'><img src='images/sitemap_small.gif'>&nbsp;Main Site Map</a>
+<br>";
+
+$pgs = $count_songs / $sitemap_perpage;
+$pgs = (int) $pgs;
+if($pgs<1){$pgs=1;}
+
+for($i=1;$i<=$pgs;$i++){
+print "<a href='sitemap.php?op=songs".iif($i>1,"&page=$i")."'><img src='images/sitemap_small.gif'>&nbsp;$phrases[the_songs]".iif($i>1," $i")."</a><br>";
+}
+
+print "
+<a href='sitemap.php?op=videos'><img src='images/sitemap_small.gif'>&nbsp;$phrases[the_videos]</a>
+<br>
+<a href='sitemap.php?op=photos'><img src='images/sitemap_small.gif'>&nbsp;$phrases[the_photos]</a>
+
+</fieldset>";
+?>

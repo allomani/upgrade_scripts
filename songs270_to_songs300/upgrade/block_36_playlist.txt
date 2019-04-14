@@ -1,0 +1,36 @@
+<?
+global $member_data,$phrases;
+if(check_member_login()){
+
+print "
+<div id=\"playlists_select_div\">
+<script>
+get_playlists();
+</script>
+</div>
+<div id=\"playlists_add_div\" style=\"display:none\">
+<input type=text id=playlist_name name=playlist_name size=6>&nbsp;<input type=button value=\"$phrases[add_button]\" onclick=\"playlists_submit($('playlist_name').value);\"></div>";
+
+//----- List Items -----//
+
+$last_list_id = intval(get_cookie('last_list_id'));
+
+
+print "<form name='playlist_form' action='listen_all.php' method='post'>
+<div id=\"playlist_div\" align=center style=\"background-color:#FFFFFF;border: thin dashed #C0C0C0;\">
+
+<script>
+get_playlist_items(".$last_list_id.");
+</script>";
+
+print "</div><br>
+<center><input type=submit value=\"$phrases[listen]\"></center>
+</form>
+
+<script>
+init_playlist_sortlist();
+</script>";
+
+}else{
+print "<center> $phrases[please_login_first]</center>";
+}

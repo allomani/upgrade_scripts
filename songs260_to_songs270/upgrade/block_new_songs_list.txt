@@ -1,0 +1,38 @@
+<?
+global $action,$data,$data_singer,$data_comment,$lyrics_count,$urls_sets,$urls_data,$songs_fields_sets,$phrases;
+
+$qr_m=db_query("select *  from songs_new_songs_menu  order by ord asc");
+  $c = 0 ;
+
+if(db_num($qr_m)){
+compile_template(get_template('browse_songs_header'));
+
+$tr_ord = 1;
+
+while($data_m=db_fetch($qr_m)){
+$data = db_qr_fetch("select * from songs_songs where id='$data_m[song_id]'");
+
+   $data_comment = db_qr_fetch("select * from songs_comments where id='$data[comment]'"); 
+
+        $data_singer = db_qr_fetch("select * from songs_singers where id='$data[album]'");
+
+            if($tr_ord ==1){
+                   $tr_class="songs_1" ;
+                   $tr_ord = 2 ;
+                   }else{
+                    $tr_class="songs_2";
+                    $tr_ord = 1 ;
+                           }         
+      print "<tr class='$tr_class'>";
+
+$urls_data = sync_urls_data($data['id']); 
+compile_template(get_template('browse_songs'));
+print "</tr>";
+        }
+
+compile_template(get_template('browse_songs_footer'));
+}else{
+print "<center>$phrases[err_no_songs]</center>";
+}
+
+?>

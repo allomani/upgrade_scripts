@@ -1,0 +1,17 @@
+<?
+ 
+$qr1=db_query("select *  from songs_urls_data order by downloads DESC limit 10");
+
+  $c = 0 ;
+while($data2=db_fetch($qr1)){
+
+$song_data = db_qr_fetch("select *  from songs_songs where id='$data2[song_id]'");
+
+$singer_data = db_qr_fetch("select * from songs_singers where id='$song_data[album]'");
+
+            ++$c ;
+          print "$c.<a href='".get_template('links_song_download',array('{id}','{cat}'),array($data2['song_id'],$data2['cat']))."'>$singer_data[name] - $song_data[name]</a> </font><br>";
+        }
+
+
+?>

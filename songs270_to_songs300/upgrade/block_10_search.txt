@@ -1,0 +1,12 @@
+<?
+global $keyword,$op,$phrases;
+
+$srch_arr = array("songs"=>$phrases['the_songs'],"singers"=>$phrases['the_singers'],"videos"=>$phrases['the_videos'],"news"=>$phrases['the_news']);
+
+print "<form  action='search.php'>
+<input type=text name='keyword' size='12' value=\"".htmlspecialchars($keyword)."\">";
+
+print_select_row("op",$srch_arr,$op);
+
+print "<input type=submit value='$phrases[search]'>
+</form>";

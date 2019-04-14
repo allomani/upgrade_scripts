@@ -1,0 +1,23 @@
+<?
+$qr_title = db_query("select * from songs_votes_cats  where active=1");
+if(db_num($qr_title)){
+
+$data_title = db_fetch($qr_title);
+print "<center>$data_title[title]</center>";
+$qr = mysql_query("select * from songs_votes where cat=$data_title[id]");
+print "<form action=\"votes.php\" method=\"post\">
+<input type='hidden' name='action' value='vote_add'>
+";
+
+ while ($data = mysql_fetch_array($qr)){
+
+        print "<input type='radio' value='$data[id]' name='vote_id'>$data[title]<br>";
+
+
+
+ }
+print "<center><br><input type='submit' value='ÊÕæíÊ'> <br><br><a href='votes.php'>ÇáäÊÇÆÌ </a></center></form>";
+}else{
+print "<center>  áÇ ÊæÌÏ ÊÕæíÊÇÊ ãİÚáÉ ÍÇáíÇ </center>";
+}
+?>

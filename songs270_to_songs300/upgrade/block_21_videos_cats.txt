@@ -1,0 +1,9 @@
+<?
+global $links;
+
+$cats_qr=db_query("select * from songs_videos_cats where active=1 and cat=0 order by ord asc");
+while($data = db_fetch($cats_qr)){
+       print "<b>::</b> <a href='".str_replace('{id}',$data['id'],$links['browse_videos'])."'>$data[name]</a><br>";
+
+
+        }

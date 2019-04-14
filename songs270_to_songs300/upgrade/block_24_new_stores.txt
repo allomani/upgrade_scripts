@@ -1,0 +1,52 @@
+<?
+global $phrases;
+
+$cached_newmenu = cache_get("newmenu");
+
+if($cached_newmenu === false){
+
+$qr = db_query("select songs_singers.*,songs_new_menu.ord from songs_singers,songs_new_menu where songs_singers.id = songs_new_menu.cat and songs_new_menu.`type` like 'singer'");
+while($data = db_fetch($qr)){
+ $arr[$data['ord']] = $data;   
+ $arr[$data['ord']]['type'] = "singer";   
+}
+
+$qr=db_query("select songs_new_menu.ord,songs_albums.*,songs_singers.id as singer_id ,songs_singers.name as singer_name,songs_singers.page_name as singer_page_name,songs_singers.img as singer_img from songs_singers,songs_albums,songs_new_menu where songs_albums.cat = songs_singers.id and songs_singers.active=1 and songs_albums.id=songs_new_menu.cat and songs_new_menu.`type` like 'album'");
+while($data = db_fetch($qr)){
+ $arr[$data['ord']] = $data;   
+ $arr[$data['ord']]['type'] = "album";   
+}
+
+unset($data);
+$arr = (array) $arr;
+ksort($arr);
+
+cache_set("newmenu",$arr);
+}else{
+$arr = $cached_newmenu;
+$arr = (array) $arr;
+}
+
+print "<center>";
+
+if(count($arr)){
+foreach($arr as $data){
+
+if($data['type']=="singer"){
+
+print "<a href=\"".singer_url($data['id'],$data['page_name'],$data['name'])."\" title=\"$data[name]\"><img src=\"".get_image($data['img'])."\" alt=\"$data[name]\" width=50 hieght=50><br>$data[name]</a><br><br>";
+
+
+
+
+}else{
+
+print "<a href=\"".album_url($data['id'],$data['page_name'],$data['name'],$data['singer_id'],$data['singer_page_name'],$data['singer_name'])."\" title=\"$data[singer_name] - $data[name]\"><img src=\"".get_image(iif($data['img'],$data['img'],$data['singer_img']))."\" alt=\"$data[singer_name] - $data[name]\"  width=50 hieght=50><br>$data[singer_name] - $data[name]".iif($data['year']," ($data[year])")."</a><br><br>";
+
+}
+}
+}else{
+print $phrases['no_data'];
+}
+print "</center>";
+?>

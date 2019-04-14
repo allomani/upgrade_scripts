@@ -1,0 +1,23 @@
+<?
+$qr = db_query("select * from songs_new_menu order by ord asc");
+print "<center>";
+
+while($data=db_fetch($qr)){
+
+if($data['type']=="singer"){
+$qr2=db_query("select * from songs_singers where id=$data[cat] and active=1");
+if(db_num($qr2)){
+$data2 = db_fetch($qr2);
+print "<a href='".get_template('links_browse_songs',"{id}",$data2['id'])."'><img width=50 hieght=50 src='".get_image($data2['img'])."' alt='$data2[name]' border=0></a><br>$data2[name]<br><br>";
+}
+
+}else{
+$qr2=db_query("select songs_albums.*,songs_singers.id as singer_id ,songs_singers.name as singer_name,songs_singers.img as singer_img from songs_singers,songs_albums where songs_albums.cat = songs_singers.id and songs_singers.active=1 and songs_albums.id=$data[cat]");
+
+if(db_num($qr2)){
+$data2 = db_fetch($qr2);
+print "<a href='".get_template('links_browse_songs_w_album',array('{id}','{album_id}'),array($data2['singer_id'],$data2['id']))."'><img width=50 hieght=50 src='".get_image(iif($data2['img'],$data2['img'],$data2['singer_img']))."' alt='$data2[name]' border=0></a><br>$data2[singer_name]<br>$data2[name]<br><br>";
+}
+}
+}
+?>

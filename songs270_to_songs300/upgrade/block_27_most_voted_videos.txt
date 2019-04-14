@@ -1,0 +1,13 @@
+<?
+global $links;
+
+$qr=db_query("select *  from songs_videos_data order by rate DESC limit 10");
+  $c = 0 ;
+while($data=db_fetch($qr)){
+
+      ++$c;
+          print "$c.<a href=\"".str_replace('{id}',$data['id'],$links['video_watch'])."\" title=\"$data[name]\">$data[name]</a> </font><br>";
+        }
+
+
+?>

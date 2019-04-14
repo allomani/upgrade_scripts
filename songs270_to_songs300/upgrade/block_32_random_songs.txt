@@ -1,0 +1,24 @@
+<?
+$qr = db_query("select id,name from songs_cats where active=1 order by binary name asc");
+print "<form action='listen_all.php' method='post'>
+<input type='hidden' name='action' value='random'>
+
+<table><tr><td colspan=2>
+ÇáŞÓã : </td></tr><tr><td colspan=2><select name=cat>
+<option value=''>ÌãíÚ ÇáÃŞÓÇã </option>" ;
+
+while($data = db_fetch($qr)){
+print "<option value='$data[id]'>$data[name]</option>";
+}
+print "</select>
+</td></tr><tr><td>
+ÇáÚÏÏ : </td><td>
+<select name=num>
+<option value=10>10</option>
+<option value=15>15</option>
+<option value=20>20</option>
+</select>
+</td></tr><tr><td colspan=2 align=center>
+<input type=submit value='ÇÓÊãÇÚ'>
+</td></tr></table>
+</form>";

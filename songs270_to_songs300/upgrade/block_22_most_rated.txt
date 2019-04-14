@@ -1,0 +1,17 @@
+<?
+global $links,$settings;
+
+$cat = $settings['default_url_id'];
+
+$qr=db_query("select songs_songs.*,songs_singers.name as singer_name  from songs_songs,songs_singers where songs_singers.id = songs_songs.album and songs_songs.rate > 0 order by songs_songs.rate DESC limit 10");
+
+  $c = 1 ;
+while($data=db_fetch($qr)){
+
+print "$c. <a href=\"".str_replace(array('{id}','{cat}'),array($data['id'],$cat),$links['song_listen'])."\" title=\"$data[singer_name] - $data[name]\">$data[singer_name] - $data[name]</a> <br>";
+
+$c++;
+}
+
+
+?>

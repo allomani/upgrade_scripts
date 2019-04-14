@@ -1,0 +1,12 @@
+<?
+global $counter,$settings ;
+
+print "<p align=center>  íÊÕİÍ ÇáãæŞÚ ÍÇáíÇ $counter[online_users] ÒÇÆÑ";
+
+if($settings['online_members_count']){
+print " , $counter[online_members] ÚÖæ";
+}
+
+print "</p>";
+
+print "<p dir=rtl align=center>ÃßÈÑ ÊæÇÌÏ ßÇä  $counter[best_visit] İí : <br> $counter[best_visit_time] <br></p>";

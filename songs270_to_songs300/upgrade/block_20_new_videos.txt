@@ -1,0 +1,17 @@
+<?
+global $settings,$data ;
+$qr=db_query("select * from songs_videos_data order by id DESC limit 8") ;
+print "<table width=100%><tr>";
+$c=0 ;
+while ($data = db_fetch($qr)){
+
+   
+if ($c==$settings['songs_cells']) {
+print "  </tr><TR>" ;
+$c = 0 ;
+}
+ ++$c ;
+ run_template('browse_videos');   
+
+              }
+print "</tr></table>";?>

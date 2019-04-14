@@ -1,0 +1,21 @@
+<?
+global $data,$phrases;
+
+$qr = db_query("select * from songs_news order by id DESC limit 4");
+
+if(db_num($qr)){
+print "<table width=100%><tr>" ;
+
+while($data = db_fetch($qr)){
+
+
+print "<tr><td>";
+run_template('browse_news');  
+print "</td></tr>";
+
+        }
+print "</tr></table>";
+}else{
+print "<center> $phrases[no_news] </center>";
+}
+       ?>
